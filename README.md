@@ -3,7 +3,7 @@ Simple electron application for managing Aquaplanner NET aqua-controller's
 
 # Setup
 
-1. Install [NodeJS]:https://nodejs.org/
+1. Install [NodeJS](https://nodejs.org/)
 
 2. Run
 
