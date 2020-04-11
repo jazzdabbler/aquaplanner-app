@@ -1,0 +1,67 @@
+{
+    "description": "Simple application for AQUAPLANNER NET",
+    "author": {
+        "email": "makarchuk.stanislav@gmail.com",
+        "name": "Roman Checkina (original app), Stanislav Makarchuk (adopt for Electron)"
+    },
+    "version": "1.0.0",
+    "keywords": [],
+    "license": "MIT",
+    "main": "src/index.js",
+    "name": "aquaplanner-app",
+    "productName": "aquaplanner-app",
+    "scripts": {
+        "lint": "echo \"No linting configured\"",
+        "make": "electron-forge make",
+        "make-win32": "electron-forge make --platform=win32 --arch=ia32,x64",
+        "package": "electron-forge package",
+        "publish": "electron-forge publish",
+        "start": "electron-forge start"
+    },
+    "config": {
+        "forge": {
+            "make_targets": {
+                "darwin": [
+                    "zip"
+                ],
+                "linux": [
+                    "deb",
+                    "rpm",
+                    "flatpak",
+                    "snap"
+                ],
+                "win32": [
+                    "zip"
+                ]
+            },
+            "makers": [
+                {
+                    "name": "@electron-forge/maker-zip",
+                    "platforms": [
+                        "darwin",
+                        "win32"
+                    ]
+                },
+                {
+                    "config": {},
+                    "name": "@electron-forge/maker-deb"
+                },
+                {
+                    "config": {},
+                    "name": "@electron-forge/maker-rpm"
+                }
+            ],
+            "packagerConfig": {}
+        }
+    },
+    "dependencies": {
+        "electron-squirrel-startup": "^1.0.0"
+    },
+    "devDependencies": {
+        "@electron-forge/cli": "6.0.0-beta.50",
+        "@electron-forge/maker-deb": "6.0.0-beta.50",
+        "@electron-forge/maker-rpm": "6.0.0-beta.50",
+        "@electron-forge/maker-zip": "6.0.0-beta.50",
+        "electron": "8.2.1"
+    }
+}

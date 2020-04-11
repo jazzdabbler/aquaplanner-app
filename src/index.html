@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="UTF-8">
+   
+   <title>AQUAPLANNER NET</title>
+   <link rel="shortcut icon" href="favicon.ico"/>
+
+   <link rel="stylesheet" href="aquarium.css">
+   <script src="aquarium.js"></script> 
+</head>
+
+<body onload ="taskTableBtnInit()">
+
+<table class="container">
+    <tr>
+      <th class="header" colspan="2" >AQUAPLANNER NET</th>
+    </tr>
+	<tr>
+	   <td colspan="2" class="urlInp" >
+	      <!-- <input type="url" id="InpUrl" style="width:100%" value="http://" autocomplete="on">-->
+
+		  <input type="url" id="InpUrl" style="width:100%;" value="http://" onkeyup="saveLastUrl()">
+          
+	   </td>
+	</tr>
+    <tr>
+      <td  class="sidenav">
+	    <ul id="menuList" onclick="clearStatusString()">
+             <li id="d_1" onclick="xhrTimer(this)"><a href="#display">Дисплей</a></li>
+             <li id="k_2" onclick="xhrTimer(this)"><a href="#knobs">Кнопки</a></li>
+             <li id="t_3" onclick="xhrTimer(this)"><a href="#tasks">Настройка Задач</a></li>
+			 <li id="d_4" onclick="xhrTimer(this)"><a href="#date">Настройка Даты</a></li>
+			 <li id="f_5" onclick="xhrTimer(this)"><a href="#fan">Настройка Вентилятора</a></li>
+			 <li id="m_5" onclick="xhrTimer(this)"><a href="#moon">Настройка Лунного Света</a></li>
+			 <li id="t_6" onclick="xhrTimer(this)"><a href="#termod">Настройка Термодатчиков</a></li>
+			 <li id="h_7" onclick="xhrTimer(this)"><a href="#calibPh">Калибровка pH</a></li>
+			 <li id="t_8" onclick="xhrTimer(this)"><a href="#test">Тест Подсветки</a></li>
+		</ul>	
+	  </td>
+	  <td class="screen" >
+	       <div class="w3-tab" >
+                
+				<div id="display" >
+				     <header class="header0"><h1>Дисплей</h1></header>
+                     <table id="displTable1" class="scrTab">
+			             <tr>
+				            <th>pH</th>
+				            <th>t1</th>
+				            <th>t2</th>					 
+				            <th>PЕЛЕ 8</th>
+				            <th>PЕЛЕ 7</th>
+				            <th>PЕЛЕ 6</th>
+				            <th>PЕЛЕ 5</th>
+				            <th>PЕЛЕ 4</th>
+				            <th>PЕЛЕ 3</th>
+				            <th>PЕЛЕ 2</th>
+				            <th>PЕЛЕ 1</th>
+				            <th>FUN</th>					 
+				         </tr>
+			             <tr>
+				            <td id="ph">&nbsp;</td>
+				            <td id="t1">&nbsp;</td>
+				            <td id="t2">&nbsp;</td>
+				            <td id="r8">&nbsp;</td>
+				            <td id="r7">&nbsp;</td>
+				            <td id="r6">&nbsp;</td>
+				            <td id="r5">&nbsp;</td>
+				            <td id="r4">&nbsp;</td>
+				            <td id="r3">&nbsp;</td>
+				            <td id="r2">&nbsp;</td>
+				            <td id="r1">&nbsp;</td>
+				            <td id="fn">&nbsp;</td>					 
+				         </tr>
+			         </table>
+			         <table id="displTable2" class="scrTab">
+			             <tr>
+				            <th>LED 1 (С1) (White Cool)</th>
+				            <th>LED 2 (С2) (White Wharm)</th>
+				            <th>LED 3 (С3) (Red)</th>
+				            <th>LED 4 (С4) (Blue)</th>
+				            <th>LED 5</th>
+				            <th>LED 6</th>					  
+				         </tr>
+				         <tr>
+				            <td id="c1">&nbsp;</td>
+				            <td id="c2">&nbsp;</td>
+				            <td id="c3">&nbsp;</td>	
+				            <td id="c4">&nbsp;</td>
+				            <td id="c5">&nbsp;</td>
+				            <td id="c6">&nbsp;</td>					  
+				        </tr>
+			         </table>
+			         <table id="displTable3" class="scrTab">
+					        <th>ДЕНЬ НЕДЕЛИ</th>
+							<th>ЧАСЫ</th>
+							<th>МИНУТЫ</th>
+						    <th>ДЕНЬ</th>
+					        <th>МЕСЯЦ</th>
+							<th>ГОД</th>
+					    </tr> 
+					    <tr>
+					        <td id="d1">&nbsp;</td>
+							<td id="d2">&nbsp;</td>
+						    <td id="d3">&nbsp;</td>
+					        <td id="d4">&nbsp;</td>
+							<td id="d5">&nbsp;</td>
+							<td id="d6">&nbsp;</td>
+					    </tr> 
+			         </table>
+                    <br/>
+					  <section style="background-color:#fff;">
+					      <span style="display:inline;">Для обновления данных нажмите кнопку Обновить</span> 
+					      <input type="button" id="btnDispl" value="Обновить" onclick="xmlHttpGetRequest('gtdl',getDisplay)" style="display:inline;" autocomplete="off"> 
+					  </section> 
+					 <br/> 
+					  <section style="background-color:#fff;">
+					      <span style="display:inline;">Для обновления данных c интервалом в 30 сек. выберите </span> 
+					      <input type="checkbox" id = "GetDisplCheck" onclick="getDisplTimer() " style="display:inline;" autocomplete="off"> 
+					  </section> 					  
+                </div> 
+				
+                <div id="knobs" >
+                  <header class="header0"><h1>Кнопки</h1></header>
+                  <!--<form action="knb" method="post" >-->
+					  <table class="scrTab" id="knobsEditTable">
+                          <tr>
+                             <th>LED</th>
+							 <th>PЕЛЕ 8</th>
+							 <th>PЕЛЕ 7</th>
+							 <th>PЕЛЕ 6</th>
+							 <th>PЕЛЕ 5</th>
+							 <th>PЕЛЕ 4</th>
+							 <th>PЕЛЕ 3</th>
+							 <th>PЕЛЕ 2</th>
+							 <th>PЕЛЕ 1</th>
+                          </tr>
+                          <tr>
+                             <td> 						  
+ 							 	<select  class="inEditTbl" style="color:green;" onchange="changeColor(this)" autocomplete="off">
+                                       <option value="*" style="color:green;">*</option>
+                                       <option value="П" style="color:blue;">П</option>										 
+                                </select>
+							</td>	
+                            <td>
+ 							 	<select  class="inEditTbl" style="color:red;" onchange="changeColor(this)" autocomplete="off">
+                                       <option value="Х" style="color:red;">X</option>
+                                       <option value="*" style="color:green;">*</option>
+                                       <option value="П" style="color:blue;">П</option>								 
+                                </select>
+					        </td>
+							<td>
+ 							 	<select  class="inEditTbl" style="color:red;" onchange="changeColor(this)" autocomplete="off">
+                                       <option value="Х" style="color:red;">X</option>
+                                       <option value="*" style="color:green;">*</option>
+                                       <option value="П" style="color:blue;">П</option>								 
+                                </select>
+							</td>	  
+						    <td>
+ 							 	<select  class="inEditTbl" style="color:red;" onchange="changeColor(this)" autocomplete="off">
+                                       <option value="Х" style="color:red;">X</option>
+                                       <option value="*" style="color:green;">*</option>
+                                       <option value="П" style="color:blue;">П</option>									 
+                                </select>
+					        </td>
+							<td>
+ 							 	<select  class="inEditTbl" style="color:red;" onchange="changeColor(this)" autocomplete="off">
+                                       <option value="Х" style="color:red;">X</option>
+                                       <option value="*" style="color:green;">*</option>
+                                       <option value="П" style="color:blue;">П</option>									 
+                                </select>
+					        </td>
+							<td>
+ 							 	<select  class="inEditTbl" style="color:red;" onchange="changeColor(this)" autocomplete="off">
+                                       <option value="Х" style="color:red;">X</option>
+                                       <option value="*" style="color:green;">*</option>
+                                       <option value="П" style="color:blue;">П</option>									 
+                                </select>
+					        </td>
+							<td>
+ 							 	<select  class="inEditTbl" style="color:red;" onchange="changeColor(this)" autocomplete="off">
+                                       <option value="Х" style="color:red;">X</option>
+                                       <option value="*" style="color:green;">*</option>
+                                       <option value="П" style="color:blue;">П</option>									 
+                                </select>
+					        </td>
+							<td>
+ 							 	<select  class="inEditTbl" style="color:red;" onchange="changeColor(this)" autocomplete="off">
+                                       <option value="Х" style="color:red;">X</option>
+                                       <option value="*" style="color:green;">*</option>
+                                       <option value="П" style="color:blue;">П</option>									 
+                                </select>
+							</td>	 
+					        <td>
+  							 	<select  class="inEditTbl" style="color:red;" onchange="changeColor(this)" autocomplete="off">
+                                       <option value="Х" style="color:red;">X</option>
+                                       <option value="*" style="color:green;">*</option>
+                                       <option value="П" style="color:blue;">П</option>								 
+                                </select>
+							</td>
+						 </tr>
+					</table>	
+                    <br/>
+					  <section style="background-color:#fff;">
+					      <span style="display:inline;">Для сохранения введенных данных нажмите кнопку Сохранить</span> 
+					      <input type="submit" value="Сохранить" onclick="setKnobsTable()" style="display:inline;"> 
+					  </section>
+                      <br/>
+					  <section style="background-color:#fff;">
+					      <span style="display:inline;">Для обновления данных нажмите кнопку Обновить</span> 
+					      <input type="submit" value="Обновить" onclick="xmlHttpGetRequest('gtkb',getKnobsTable)" style="display:inline;"> 
+					  </section>					  
+				  <!--</form>-->
+                </div>
+					 
+                <div id="tasks" >
+                    <header class="header0"><h1>Настройка Задач.</h1></header>
+                       
+					   <div id="mainTaskTable" style="height:320px;overflow:auto;display:block;">
+					     <script>
+					         document.getElementById("mainTaskTable").appendChild(populateTable(null, taskTableTxt.length, taskTableHdr.length, taskTableTxt));
+					     </script> 
+					   </div>
+					   
+				   
+					   <br/>
+                      
+					  
+					  <table class="scrTab" id="taskEditTable"> 
+					     <caption style="font-size:1.5em;">Строка редактирования задач.</caption>
+						 <tr>
+						     <th>Задача</th>
+							 <th>Функция</th>
+							 <th>Выход</th>
+							 <th>Вкл</th>
+							 <th>Выкл</th>
+							 <th>Ярк.Вкл,%</th>
+							 <th>Ярк.Выкл,%</th>
+							 <th>Вход</th>
+							 <th>Порог</th>
+						 </tr>
+						 <tr>
+						     <td>
+							    <input type="text" class="inEditTbl" value="" readonly autocomplete="off">
+							 </td>
+							 <td>
+                                    <select id="functions" class="inEditTbl" autocomplete="off">
+                                         <option value="  " disabled selected>&nbsp&nbsp</option>
+										 <option value="ТО">Таймер общий (ТО)</option>
+		                                 <option value="ТС">Таймер секундный (ТС)</option>
+		                                 <option value="ТМ">Таймер минутный (ТМ)</option>
+		                                 <option value="НТ">Нагрев (НТ)</option>
+		                                 <option value="ОТ">Охлаждение (ОТ)</option> 
+		                                 <option value="ТН">Таймер недельный (ТН)</option>
+		                                 <option value="СО">СО2 (СО)</option>
+		                                 <option value="ЦВ">Цикл волны (ЦВ)</option>
+		                                 <option value="УВ">Уровень воды (УВ)</option>
+                                    </select>
+							 </td>
+							 <td>
+							 	
+                                    <select id="outputs" class="inEditTbl" autocomplete="off">
+									     <option value="  " disabled selected>&nbsp&nbsp</option>
+                                         <option value="Р1">Реле 1 (Р1)</option>
+		                                 <option value="Р2">Реле 2 (Р2)</option>
+		                                 <option value="Р3">Реле 3 (Р3)</option>
+		                                 <option value="Р4">Реле 4 (Р4)</option>
+		                                 <option value="Р5">Реле 5 (Р5)</option>
+		                                 <option value="Р6">Реле 6 (Р6)</option>
+		                                 <option value="Р7">Реле 7 (Р7)</option>
+		                                 <option value="Р8">Реле 8 (Р8)</option>
+		                                 <option value="ВР">Вентилятор (ВР)</option>
+                                         <option value="С1">Канал LED 1 (С1) (White Cool)</option>
+		                                 <option value="С2">Канал LED 2 (С2) (White Wharm)</option>
+		                                 <option value="С3">Канал LED 3 (С3) (Red)</option>
+		                                 <option value="С4">Канал LED 4 (С4) (Blue)</option>
+		                                 <option value="С5">Канал LED 5 (С5)</option>
+		                                 <option value="С6">Канал LED 6 (С6)</option>										 
+                                    </select>							 
+							 </td>
+							 <td>
+							      <input type="text" class="inEditTbl" autocomplete="off" >
+							 </td>
+							 <td>
+							      <input type="text" class="inEditTbl" autocomplete="off" >
+							 </td>
+							 <td>
+							      <input type="number" class="inEditTbl" min="0" max="99" autocomplete="off">
+							 </td>
+							 <td>
+							      <input type="number" class="inEditTbl" min="0" max="99" autocomplete="off">
+							 </td>	
+							 <td>
+                                    <select id="inputs" class="inEditTbl" autocomplete="off">
+									     <option value="" disabled selected>&nbsp&nbsp</option>
+                                         <option value="t1">t1</option>
+		                                 <option value="t2">t2</option>
+										 <!--<option value="Х">-->
+										 <option value="З">З</option>
+										 <option value="Р">Р</option>
+                                    </select>							 
+							 </td>
+							 <td>
+							      <input type="number" class="inEditTbl" min="0" max="35" step="0.1" autocomplete="off">
+							 </td>							 
+						 </tr>
+					  </table>
+					   
+					  <!--  
+					   <br/>
+                       <table class="scrTab" id="calendar_tt">
+					   <caption style="font-size:1.5em;">Календарь (Ввод Вкл. и Выкл. )</caption>
+					     <tr>
+						     <th>Дни недели</th>
+							 <th>Часы</th>
+							 <th>Минуты/Секунды</th>
+
+						 </tr>
+                         <tr>
+                             <td id="ssss">
+							        <select class="inEditTbl" autocomplete="off">
+									     <option value="" selected>&nbsp&nbsp</option>
+                                         <option value="ПН">ПН</option>
+		                                 <option value="ВТ">ВТ</option>
+										 <option value="СР">СР</option>
+										 <option value="ЧТ">ЧТ</option>
+		                                 <option value="ПТ">ПТ</option>
+										 <option value="СБ">СБ</option>
+										 <option value="ВС">ВС</option>										 
+                                    </select>							 							 
+							 </td>
+							 <td id="tdOn"><script>document.getElementById("tdOn").appendChild(populateSelect(23));</script>
+
+							 </td>
+							 <td id="tdOff"><script>document.getElementById("tdOff").appendChild(populateSelect(99));</script>							 
+							 </td>
+                         </tr>						 
+					   </table>
+                       
+					-->   
+					<br/>
+					<section style="background-color:#fff;">
+					    <span style="display:inline;">Для редактирования задач используйте кнопки:</span> 
+						<input type="button" value="Добавить"  id="addRowBtn" onclick="addRow('taskTable',rowIndexTaskTable,taskTableTxt)" style="display:inline;" >
+						<input type="button" value="Удалить"  id="delRowBtn" onclick="delRow('taskTable',rowIndexTaskTable)" style="display:inline;">
+						<input type="button" value="Редактировать"  id="editRowBtn" onclick="editRow('taskTable',taskTableHdr.length,taskTableTxt)" style="display:inline;">
+						<input type="submit" value="Сохранить"  id="saveTableBtn" onclick="setTaskTable()" style="display:inline;">
+						<input type="submit" value="Обновить" onclick="xmlHttpGetBinaryRequest('gtts',getTaskTable)" style="display:inline;">
+					</section>
+					
+					<br/>
+					<!--
+					<section style="background-color:#fff;">
+					    <span style="display:inline;">Для передачи в устройство нажмите кнопку Сохранить</span> 
+					    <input type="button" value="Сохранить" onclick="setTaskTable()" style="display:inline;">
+					</section> 
+					<br/>
+					<section style="background-color:#fff;">
+					    <span style="display:inline;">Для получения данных с устройства нажмите кнопку Обновить</span> 
+					    <input type="submit" value="Обновить" onclick="getTaskTable()" style="display:inline;">
+					</section> 
+					-->
+                </div>
+				
+				<div id="date" >
+                    <header class="header0"><h1>Насторойка Даты</h1></header>
+                    <table class="scrTab" id="editDateTable">
+					    <tr>
+					        <th>ДЕНЬ НЕДЕЛИ</th>
+							<th>ЧАСЫ</th>
+							<th>МИНУТЫ</th>
+						    <th>ДЕНЬ</th>
+					        <th>МЕСЯЦ</th>
+							<th>ГОД</th>
+					    </tr> 
+					    <tr>
+					        <td id="dat1">&nbsp;</td>
+							<td id="dat2">&nbsp;</td>
+						    <td id="dat3">&nbsp;</td>
+					        <td id="dat4">&nbsp;</td>
+							<td id="dat5">&nbsp;</td>
+							<td id="dat6">&nbsp;</td>
+					    </tr> 						
+				    </table>
+                    <br/>
+					<section style="background-color:#fff;">
+					    <span style="display:inline;">Для сохранения данных в устройстве нажмите кнопку Сохранить</span> 
+					    <input type="submit" value="Сохранить" onclick="setDate()" style="display:inline;"> 
+					</section> 					
+                </div>
+				
+                <div id="fan" >
+                    <header class="header0"><h1>Настройка Вентилятора.</h1></header>				
+                    <table class="scrTab" id="editFan">
+					    <tr>
+					        <th >МОЩНОСТЬ</th>
+						    <th>СТАТУС</th>
+					    </tr>
+					    <tr>
+					        <td>
+						        <input type="number" min="0" max="99" class="inEditTbl" placeholder="0...99"> 
+						    </td>
+					        <td>
+ 							 	<select  class="inEditTbl" style="color:red;" onchange="changeColor(this)" autocomplete="off">
+                                       <option value="Х" style="color:red;">X</option>
+                                       <option value="*" style="color:green;">*</option>
+                                </select>				    
+						    </td>						  
+					    </tr>
+					</table>
+                    <br/>
+					  <section style="background-color:#fff;">
+					      <span style="display:inline;">Для чтения данных с устройства нажмите кнопку Обновить</span> 
+					      <input type="submit" value="Обновить" onclick="xmlHttpGetRequest('gtfn',getFanTable)" style="display:inline;"> 
+					  </section>
+					  <br/>
+					  <section style="background-color:#fff;">
+					      <span style="display:inline;">Для сохранения введенных данных  в устройстве нажмите кнопку Сохранить</span> 
+					      <input type="submit" value="Сохранить" onclick="setFanTable()" style="display:inline;"> 
+					  </section> 					  
+				</div>
+					 
+                <div id="moon" >
+                  <header class="header0"><h1>Настройка Лунного Света.</h1></header>
+                    <table class="scrTab" id="moonLightTable">
+					    <tr>
+					        <th >ВКЛ</th>
+							<th >ВЫКЛ</th>
+						    <th>СТАТУС</th>
+					    </tr>
+					    <tr>
+					        <td>
+						        <input type="text"  placeholder="ЧЧ:ММ" class="inEditTbl">
+						    </td>
+
+					        <td>
+						        <input type="text"  placeholder="ЧЧ:ММ" class="inEditTbl">
+						    </td>
+					        <td>
+ 							 	<select  class="inEditTbl" style="color:red;" onchange="changeColor(this)" autocomplete="off">
+                                       <option value="Х" style="color:red;">X</option>
+                                       <option value="*" style="color:green;">*</option>
+                                </select>	
+						    </td>						  
+					    </tr>
+					</table>
+                    <br/>
+					  <section style="background-color:#fff;">
+					      <span style="display:inline;">Для сохранения введенных данных нажмите кнопку Cохранить</span> 
+					      <input type="submit" value="Сохранить" onclick="setMoonLightTable()" style="display:inline;"> 
+					  </section>
+                      <br/>	
+					  <section style="background-color:#fff;">
+					      <span style="display:inline;">Для чтения данных с устройства нажмите кнопку Обновить</span> 
+					      <input type="submit" value="Обновить" onclick="xmlHttpGetRequest('gtml',getMoonLightTable)" style="display:inline;"> 
+					  </section>					  
+                </div>
+				
+				<div id="termod" >
+                  <header class="header0"><h1>Настройка Термодатчиков.</h1></header>
+					  <section style="background-color:#d0d0d0;">
+					     <span style="display:inline;">Чтобы начать или повторить процесс поиска термодатчиков нажмите кнопку
+					          Старт.</span> 
+					     <input type="submit" value="Старт" id="tsrcBtn" onclick="searchTSReq('tsrc')" style="display:inline;"> 
+					  </section>    
+					  
+					  
+					  <section style="background-color:#fff;">
+					      <span style="display:inline;">Чтобы выйти из процесса поиска термодатчиков нажмите кнопку
+					         Стоп.</span> 
+					      <input type="submit" value="Стоп" id="tstpBtn" onclick="searchTSReq('tstp')" style="display:inline;"> 
+					  </section> 
+                      <br/>
+                      <br/>
+                      <table class="scrTab" id="termosensTable">
+					     <tr>
+						   <th>t1</th>
+						   <th>t2</th>
+						 </tr>
+						 <tr>
+						    <td id="tdt1">&nbsp;</td>
+							<td id="tdt2">&nbsp;</td>
+						 </tr>
+                      </table>   									  
+                </div>
+				
+                <div id="calibPh" >
+                     <header class="header0"><h1>Калибровка рН.</h1></header>
+					  
+					  <section style="background-color:#d0d0d0;">
+					     <span style="display:inline;">Чтобы начать процесс калибровки датчика нажмите кнопку
+					          Старт.</span> 
+					     <input type="submit" value="Старт" id="strPhBtn" onclick="calibrPhReq('cphb')" style="display:inline;"> 
+					  </section>                     
+					  
+					  <section style="background-color:#fff;">
+					     <span style="display:inline;">Поместите датчик в буферный раствор с рН=4,0. По истечении 1 мин. нажмите кнопку
+					          Готово рН4.</span> 
+					     <input type="submit" value="Готово рН4" id="rdyPh4Btn" disabled = "true" onclick="calibrPhReq('cph4')" style="display:inline;"> 
+					  </section>
+                      
+					  <section style="background-color:#d0d0d0;">
+					      <span style="display:inline;">Поместите датчик в буферный раствор с рН=7,0. По истечении 1 мин. нажмите кнопку
+					         Готово рН7.</span> 
+					      <input type="submit" value="Готово рН7" id="rdyPh7Btn"  disabled = "true" onclick="calibrPhReq('cph7')" style="display:inline;"> 
+					  </section>
+					  
+					  <section style="background-color:#fff;">
+					      <span style="display:inline;">Чтобы закончить процесс калибровки датчика нажмите кнопку
+					         Стоп.</span> 
+					      <input type="submit" value="Стоп" id="stpPhBtn" onclick="calibrPhReq('cphe')" style="display:inline;"> 
+					  </section>
+                      <br/><br/>
+                      <table class="scrTab" id="calibrPhTable">
+					     <tr>
+						   <th>U pH4, mB</th>
+						   <th>U pH7, mB</th>
+						   <th>S, mA/B</th>
+						   <th>Статус</th>
+						 </tr>
+						 <tr>
+						    <td id="uph4">&nbsp;</td>
+							<td id="uph7">&nbsp;</td>
+							<td id="sphm">&nbsp;</td>
+							<td id="stph">&nbsp;</td>
+						 </tr>
+                      </table>   					  
+                </div>
+					 
+                <div id="test" >
+                   <header class="header0"><h1>Тест Подсветки.</h1></header>
+					  <section style="background-color:#d0d0d0;">
+					     <span style="display:inline;">Чтобы начать тестирование подсветки нажмите кнопку Старт.</span> 
+					     <input type="submit" value="Старт" id="beginLedTestBtn" onclick="testLedsReq('gttb')" style="display:inline;"> 
+					  </section>    
+					  
+					  
+					  <section style="background-color:#fff;">
+					      <span style="display:inline;">Чтобы выйти из процесса тестирования подсветки нажмите кнопку Стоп.</span> 
+					      <input type="submit" value="Стоп" id="endLedTestBtn" disabled = "true" onclick="testLedsReq('gtte')" style="display:inline;"> 
+					  </section>                      
+			
+                </div>  				
+           </div>
+	  </td>
+    </tr>
+    <tr>
+       <td   colspan="2" class="statusString"><span  id="statusXHR"></span> </td>
+    </tr>	
+    <tr>
+       <td class="footer" colspan="2" >  </td>
+    </tr>	
+</table>
+
+</body>
+</html> 
